@@ -7,13 +7,13 @@ const brandColors = {
 };
 
 module.exports = {
-  content: ['./src/**/*.{html,js, jsx, ts, tsx}'],
+  content: ['./index.html', './src/**/*.{vue,js,ts,jsx,tsx}'],
   theme: {
     extend: {
       colors: {
         ...brandColors,
-        backgroundColor: brandColors.richBlack,
-        textColor: brandColors.platinum,
+        background: brandColors.richBlack,
+        text: brandColors.platinum,
       },
     },
   },

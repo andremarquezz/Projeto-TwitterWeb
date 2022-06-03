@@ -4,7 +4,7 @@ import Tweet from './components/Tweet';
 function App() {
   return (
     <>
-      <Tweet />
+      <Tweet name="brabo" username="asd" />
       <p>App</p>
     </>
   );
