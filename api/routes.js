@@ -1,21 +1,24 @@
 import Router from '@koa/router';
+import { PrismaClient } from '@prisma/client';
 
 export const router = new Router();
 
-const tweets = [];
+const prisma = new PrismaClient();
 
-router.get('/tweets', (ctx) => {
-  ctx.body = ctx.query.username
-    ? tweets.filter((tweet) => tweet.username === ctx.query.username)
-    : tweets;
+router.get('/tweets', async (ctx) => {
+  const tweets = await prisma.tweet.findMany();
+  ctx.body = tweets;
 });
 
-router.post('/tweets', (ctx) => {
+router.post('/tweets', async (ctx) => {
   const tweet = {
-    ...ctx.request.body,
-    id: tweets.length + 1,
+    userId: 'cl404x10m0009ly9bbp6v12f1',
+    text: ctx.request.body.text,
   };
 
-  tweets.push(tweet);
-  ctx.body = tweet;
+  const doc = await prisma.tweet.create({
+    data: tweet,
+  });
+
+  ctx.body = doc;
 });
