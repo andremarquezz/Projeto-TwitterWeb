@@ -1,22 +1,16 @@
 import React, { useState } from 'react';
 import { BeakerIcon } from '@heroicons/react/solid';
 
+const MAX_TWEET_CHA = 250;
 function TweetForm() {
   const [tweet, setTweet] = useState('');
   const [tweetMax, setTweetMax] = useState(false);
 
   const handleText = ({ target: { value } }) => {
-    // const maxCaracters = 250;
-    // if (tweet.length === maxCaracters) {
-    //   console.log('entrei');
-    //   setTweetMax(true);
-    //   return;
-    // } else {
-    //   setTweetMax(false);
-    // }
+    if (tweet.length >= MAX_TWEET_CHA) setTweetMax(true);
+    if (tweet.length < MAX_TWEET_CHA) setTweetMax(false);
     setTweet(value);
   };
-
   return (
     <div className="border-b border-silver p-4 space-y-6">
       <header className="flex space-x-5 ">
@@ -28,14 +22,20 @@ function TweetForm() {
           value={tweet}
           placeholder="O que está acontecendo?"
           name="tweet"
-          className="bg-transparent outline-none"
+          className="bg-transparent outline-none disabled:opacity-50"
           onChange={handleText}
         />
         <div className="flex justify-end items-center space-x-3">
-          <p className="text-sm" onChange={handleText}>
-            {tweet.length}/<span className={tweetMax ? 'text-red-500' : 'text-birdBlue'}>250</span>
+          <p className="text-sm">
+            {tweet.length}/
+            <span className={tweetMax ? 'text-red-500' : 'text-birdBlue'}>{MAX_TWEET_CHA}</span>
           </p>
-          <button className="bg-birdBlue px-5 py-2 rounded-full">Tweet</button>
+          <button
+            disabled={tweetMax}
+            className="bg-birdBlue px-5 py-2 rounded-full disabled:opacity-50"
+          >
+            Tweet
+          </button>
         </div>
       </form>
     </div>
