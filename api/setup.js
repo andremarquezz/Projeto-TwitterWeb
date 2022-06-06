@@ -9,6 +9,3 @@ app.use(cors());
 app.use(bodyParser());
 app.use(router.routes());
 app.use(router.allowedMethods());
-app.use((ctx) => {
-  ctx.body = 'Hello World!';
-});
