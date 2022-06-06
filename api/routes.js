@@ -1,5 +1,6 @@
 import Router from '@koa/router';
 import { PrismaClient } from '@prisma/client';
+import bcrypt from 'bcrypt';
 
 export const router = new Router();
 
@@ -22,13 +23,20 @@ router.post('/tweets', async (ctx) => {
 });
 
 router.post('/signup', async (ctx) => {
+  const saltRounds = 10;
+  const password = bcrypt.hashSync(ctx.request.body.password, saltRounds);
   const user = await prisma.user.create({
     data: {
       name: ctx.request.body.name,
       username: ctx.request.body.username,
       email: ctx.request.body.email,
-      password: ctx.request.body.password,
+      password,
     },
   });
-  ctx.body = user;
+  ctx.body = {
+    id: user.id,
+    name: user.name,
+    username: user.username,
+    email: user.email,
+  };
 });
