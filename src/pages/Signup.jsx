@@ -126,7 +126,7 @@ export function Signup({ signInUser }) {
 
       <span className="text-sm text-silver text-center">
         Já tem uma conta?{' '}
-        <Link className="text-birdBlue" to="/login">
+        <Link className="text-birdBlue" to="/">
           Acesse sua conta.
         </Link>
       </span>
