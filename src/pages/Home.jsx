@@ -5,33 +5,37 @@ import { useEffect, useState } from 'react';
 import avatar from '../avatar.png';
 
 function Home({ user }) {
-  const [data, setData] = useState([]);
-  useEffect(() => {
-    fetchData();
-  }, []);
+  const [data, setData] = useState('');
 
-  const fetchData = async () => {
-    const res = await axios.get(`http://localhost:9901/tweets`, {
+  const getData = async () => {
+    const res = await axios.get('http://localhost:9901/tweets', {
       headers: {
         authorization: `Bearer ${user.accessToken}`,
       },
     });
     setData(res.data);
   };
+
+  useEffect(() => {
+    getData();
+  }, []);
+
   console.log(data);
+
   return (
     <>
-      <TweetForm user={user} />
-      {data.map((tweet) => {
-        <Tweet
-          key={tweet.user.id}
-          name={tweet.user.name}
-          username={tweet.user.username}
-          avatar={avatar}
-        >
-          {tweet.text}
-        </Tweet>;
-      })}
+      <TweetForm user={user} onSuccess={getData} />
+      {data.length &&
+        data.map((tweet) => {
+          <Tweet
+            key={tweet.user.id}
+            name={tweet.user.name}
+            username={tweet.user.username}
+            avatar={avatar}
+          >
+            {tweet.text}
+          </Tweet>;
+        })}
     </>
   );
 }

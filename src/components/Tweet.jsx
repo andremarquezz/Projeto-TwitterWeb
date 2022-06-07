@@ -2,6 +2,7 @@ import React from 'react';
 import { HeartIcon } from '@heroicons/react/outline';
 
 function Tweet({ name, avatar, username, children }) {
+  console.log('entrei');
   return (
     <div className="flex space-x-3 p-4 border-b border-silver items-center">
       <div>

@@ -60,9 +60,12 @@ function TweetForm({ user, onSuccess }) {
         <div className="flex justify-end items-center space-x-3">
           <p className="text-sm">
             {values.text.length}/
-            <span className={tweetMax ? 'text-red-500' : 'text-birdBlue'}>{MAX_TWEET_CHA}</span>
+            <span className={tweetMax ? 'text-red-500' : 'text-birdBlue'}>
+              {MAX_TWEET_CHA}
+            </span>
           </p>
           <button
+            type="submit"
             disabled={tweetMax || isSubmitting}
             className="bg-birdBlue px-5 py-2 rounded-full disabled:opacity-50"
           >
