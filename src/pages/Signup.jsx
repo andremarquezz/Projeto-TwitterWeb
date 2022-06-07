@@ -14,15 +14,16 @@ const validationSchema = yup.object({
   password: yup.string().required('Digite sua senha'),
 });
 
-function Signup() {
+function Signup({ signInUser }) {
   const formik = useFormik({
     onSubmit: async (values) => {
-      await axios.post(`http://localhost:9901/signup`, {
+      const res = await axios.post(`http://localhost:9901/signup`, {
         name: values.name,
         username: values.username,
         email: values.email,
         password: values.password,
       });
+      signInUser(res.data);
       useNavigate('/home');
     },
     initialValues: {

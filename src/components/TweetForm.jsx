@@ -1,37 +1,69 @@
 import React, { useState } from 'react';
-import { BeakerIcon } from '@heroicons/react/solid';
+import axios from 'axios';
+import { useFormik } from 'formik';
+import avatar from '../avatar.png';
 
 const MAX_TWEET_CHA = 250;
-function TweetForm() {
-  const [tweet, setTweet] = useState('');
+
+function TweetForm({ user, onSuccess }) {
+  const formik = useFormik({
+    onSubmit: async (values, form) => {
+      await axios({
+        method: 'post',
+        url: `${import.meta.env.VITE_API_HOST}/tweets`,
+        headers: {
+          authorization: `Bearer ${user.accessToken}`,
+        },
+        data: {
+          text: values.text,
+        },
+      });
+
+      form.setFieldValue('text', '');
+      onSuccess();
+    },
+    initialValues: {
+      text: '',
+    },
+  });
+
   const [tweetMax, setTweetMax] = useState(false);
 
-  const handleText = ({ target: { value } }) => {
-    if (tweet.length >= MAX_TWEET_CHA) setTweetMax(true);
-    if (tweet.length < MAX_TWEET_CHA) setTweetMax(false);
-    setTweet(value);
+  const handleText = (event) => {
+    const {
+      values: { text },
+      handleChange,
+    } = formik;
+    handleChange(event);
+    if (text.length >= MAX_TWEET_CHA) setTweetMax(true);
+    if (text.length < MAX_TWEET_CHA) setTweetMax(false);
   };
+
+  const { handleSubmit, values, handleBlur, isSubmitting, handleChange } = formik;
+
   return (
     <div className="border-b border-silver p-4 space-y-6">
       <header className="flex space-x-5 ">
-        <BeakerIcon className="h-5 w-5 text-blue-500" />
+        <img src={avatar} alt="avatar" />
         <h1 className="font-bold text-xl">Página Inicial</h1>
       </header>
-      <form className="pl-12 text-lg flex flex-col ">
+      <form className="pl-12 text-lg flex flex-col" onSubmit={handleSubmit}>
         <textarea
-          value={tweet}
+          name="text"
+          value={values.text}
           placeholder="O que está acontecendo?"
-          name="tweet"
           className="bg-transparent outline-none disabled:opacity-50"
           onChange={handleText}
+          onBlur={handleBlur}
+          disabled={isSubmitting}
         />
         <div className="flex justify-end items-center space-x-3">
           <p className="text-sm">
-            {tweet.length}/
+            {values.text.length}/
             <span className={tweetMax ? 'text-red-500' : 'text-birdBlue'}>{MAX_TWEET_CHA}</span>
           </p>
           <button
-            disabled={tweetMax}
+            disabled={tweetMax || isSubmitting}
             className="bg-birdBlue px-5 py-2 rounded-full disabled:opacity-50"
           >
             Tweet
