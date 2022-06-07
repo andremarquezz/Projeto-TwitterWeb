@@ -25,17 +25,19 @@ function Home({ user }) {
   return (
     <>
       <TweetForm user={user} onSuccess={getData} />
-      {data.length &&
-        data.map((tweet) => {
-          <Tweet
-            key={tweet.user.id}
-            name={tweet.user.name}
-            username={tweet.user.username}
-            avatar={avatar}
-          >
-            {tweet.text}
-          </Tweet>;
-        })}
+      <div>
+        {data.length &&
+          data.map((tweet) => (
+            <Tweet
+              key={tweet.id}
+              name={tweet.user.name}
+              username={tweet.user.username}
+              avatar={avatar}
+            >
+              {tweet.text}
+            </Tweet>
+          ))}
+      </div>
     </>
   );
 }
