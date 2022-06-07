@@ -9,9 +9,11 @@
   },
   "dependencies": {
     "@heroicons/react": "^1.0.6",
+    "formik": "^2.2.9",
     "koa": "^2.13.4",
     "react": "^18.0.0",
-    "react-dom": "^18.0.0"
+    "react-dom": "^18.0.0",
+    "yup": "^0.32.11"
   },
   "devDependencies": {
     "@types/react": "^18.0.0",
