@@ -1,30 +1,35 @@
+import { Link, useNavigate } from 'react-router-dom';
 import { useFormik } from 'formik';
 import * as yup from 'yup';
 import axios from 'axios';
-import { Link, useNavigate } from 'react-router-dom';
 
 const Input = (props) => (
-  <input {...props} className="w-full bg-transparent p-4 border rounded-xl border-onix text-lg " />
+  <input
+    {...props}
+    className="w-full bg-transparent p-4 border rounded-xl border-onix text-lg outline-none focus:border-platinum"
+  />
 );
 
 const validationSchema = yup.object({
   name: yup.string().required('Digite seu nome'),
-  username: yup.string().required('Digite seu username'),
+  username: yup.string().required('Digite um nome de usuário'),
   email: yup.string().required('Digite seu email').email('E-mail inválido'),
   password: yup.string().required('Digite sua senha'),
 });
 
-function Signup({ signInUser }) {
+export function Signup({ signInUser }) {
+  const navigate = useNavigate();
   const formik = useFormik({
     onSubmit: async (values) => {
-      const res = await axios.post(`http://localhost:9901/signup`, {
+      const res = await axios.post(`${import.meta.env.VITE_API_HOST}/signup`, {
         name: values.name,
-        username: values.username,
         email: values.email,
+        username: values.username,
         password: values.password,
       });
+
       signInUser(res.data);
-      useNavigate('/home');
+      navigate('/home');
     },
     initialValues: {
       email: '',
@@ -33,88 +38,88 @@ function Signup({ signInUser }) {
     validateOnMount: true,
     validationSchema,
   });
-  const { values, handleSubmit, handleChange, handleBlur, isSubmitting, errors, isValid, touched } =
-    formik;
+
   return (
-    <>
-      <div className="h-full flex flex-col justify-center items-center space-y-6">
-        <h1 className="text-3xl">Crie sua conta</h1>
+    <div className="h-full flex flex-col justify-center p-12 space-y-6">
+      <h1 className="text-3xl">Crie sua conta</h1>
 
-        <form className="space-y-1" onSubmit={handleSubmit}>
-          <div className="space-y-1">
-            <Input
-              type="text"
-              name="name"
-              placeholder="Digite seu nome"
-              value={values.name}
-              onChange={handleChange}
-              onBlur={handleBlur}
-              disabled={isSubmitting}
-            />
-            {touched.name && errors.name && (
-              <div className="text-red-500 text-sm">{errors.name}</div>
-            )}
-          </div>
-          <div className="space-y-1">
-            <Input
-              type="text"
-              name="username"
-              placeholder="Digite seu usuario"
-              value={values.username}
-              onChange={handleChange}
-              onBlur={handleBlur}
-              disabled={isSubmitting}
-            />
-            {touched.username && errors.username && (
-              <div className="text-red-500 text-sm">{errors.username}</div>
-            )}
-          </div>
-          <div className="space-y-1">
-            <Input
-              type="text"
-              name="email"
-              placeholder="Digite seu E-mail"
-              value={values.email}
-              onChange={handleChange}
-              onBlur={handleBlur}
-              disabled={isSubmitting}
-            />
-            {formik.touched.email && errors.email && (
-              <div className="text-red-500 text-sm">{errors.email}</div>
-            )}
-          </div>
-          <div className="space-y-1">
-            <Input
-              type="password"
-              name="password"
-              placeholder="Digite sua senha"
-              value={values.password}
-              onChange={handleChange}
-              onBlur={handleBlur}
-              disabled={isSubmitting}
-            />
-            {formik.touched.password && errors.password && (
-              <div className="text-red-500 text-sm">{errors.password}</div>
-            )}
-          </div>
+      <form className="space-y-6" onSubmit={formik.handleSubmit}>
+        <div className="space-y-2">
+          <Input
+            type="text"
+            name="name"
+            placeholder="Nome"
+            value={formik.values.name}
+            onChange={formik.handleChange}
+            onBlur={formik.handleBlur}
+            disabled={formik.isSubmitting}
+          />
+          {formik.touched.name && formik.errors.name && (
+            <div className="text-red-500 text-sm">{formik.errors.name}</div>
+          )}
+        </div>
 
-          <button
-            type="submit"
-            className="w-full bg-birdBlue px-5 py-2 rounded-full disabled:opacity-50"
-            disabled={isSubmitting || !isValid}
-          >
-            {isSubmitting ? 'Enviando...' : 'Criar conta'}
-          </button>
-          <span className="text-sm text-silver">
-            Já tem conta?{' '}
-            <Link className="text-birdBlue" to="/">
-              Faça Login
-            </Link>
-          </span>
-        </form>
-      </div>
-    </>
+        <div className="space-y-2">
+          <Input
+            type="text"
+            name="username"
+            placeholder="Nome de usuário"
+            value={formik.values.username}
+            onChange={formik.handleChange}
+            onBlur={formik.handleBlur}
+            disabled={formik.isSubmitting}
+          />
+          {formik.touched.username && formik.errors.username && (
+            <div className="text-red-500 text-sm">{formik.errors.username}</div>
+          )}
+        </div>
+
+        <div className="space-y-2">
+          <Input
+            type="text"
+            name="email"
+            placeholder="E-mail"
+            value={formik.values.email}
+            onChange={formik.handleChange}
+            onBlur={formik.handleBlur}
+            disabled={formik.isSubmitting}
+          />
+          {formik.touched.email && formik.errors.email && (
+            <div className="text-red-500 text-sm">{formik.errors.email}</div>
+          )}
+        </div>
+
+        <div className="space-y-2">
+          <Input
+            type="password"
+            name="password"
+            placeholder="Senha"
+            value={formik.values.password}
+            onChange={formik.handleChange}
+            onBlur={formik.handleBlur}
+            disabled={formik.isSubmitting}
+          />
+          {formik.touched.password && formik.errors.password && (
+            <div className="text-red-500 text-sm">{formik.errors.password}</div>
+          )}
+        </div>
+
+        <button
+          type="submit"
+          className="w-full bg-birdBlue py-4 rounded-full disabled:opacity-50 text-lg"
+          disabled={formik.isSubmitting || !formik.isValid}
+        >
+          {formik.isSubmitting ? 'Enviando...' : 'Cadastrar'}
+        </button>
+      </form>
+
+      <span className="text-sm text-silver text-center">
+        Já tem uma conta?{' '}
+        <Link className="text-birdBlue" to="/login">
+          Acesse sua conta.
+        </Link>
+      </span>
+    </div>
   );
 }
-
 export default Signup;

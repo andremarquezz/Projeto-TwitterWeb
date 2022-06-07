@@ -11,7 +11,7 @@ function Home({ user }) {
   }, []);
 
   const fetchData = async () => {
-    const { data } = await axios.get('http://localhost:9901/tweets', {
+    const { data } = await axios.get(`${import.meta.env.VITE_API_HOST}/tweets`, {
       headers: {
         authorization: `Bearer ${user.accessToken}`,
       },
