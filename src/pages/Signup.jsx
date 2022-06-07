@@ -39,23 +39,34 @@ export function Signup({ signInUser }) {
     validationSchema,
   });
 
+  const {
+    handleSubmit,
+    values,
+    handleChange,
+    handleBlur,
+    isSubmitting,
+    touched,
+    errors,
+    isValid,
+  } = formik;
+
   return (
     <div className="h-full flex flex-col justify-center p-12 space-y-6">
       <h1 className="text-3xl">Crie sua conta</h1>
 
-      <form className="space-y-6" onSubmit={formik.handleSubmit}>
+      <form className="space-y-6" onSubmit={handleSubmit}>
         <div className="space-y-2">
           <Input
             type="text"
             name="name"
             placeholder="Nome"
-            value={formik.values.name}
-            onChange={formik.handleChange}
-            onBlur={formik.handleBlur}
-            disabled={formik.isSubmitting}
+            value={values.name}
+            onChange={handleChange}
+            onBlur={handleBlur}
+            disabled={isSubmitting}
           />
-          {formik.touched.name && formik.errors.name && (
-            <div className="text-red-500 text-sm">{formik.errors.name}</div>
+          {touched.name && errors.name && (
+            <div className="text-red-500 text-sm">{errors.name}</div>
           )}
         </div>
 
@@ -64,13 +75,13 @@ export function Signup({ signInUser }) {
             type="text"
             name="username"
             placeholder="Nome de usuário"
-            value={formik.values.username}
-            onChange={formik.handleChange}
-            onBlur={formik.handleBlur}
-            disabled={formik.isSubmitting}
+            value={values.username}
+            onChange={handleChange}
+            onBlur={handleBlur}
+            disabled={isSubmitting}
           />
-          {formik.touched.username && formik.errors.username && (
-            <div className="text-red-500 text-sm">{formik.errors.username}</div>
+          {touched.username && errors.username && (
+            <div className="text-red-500 text-sm">{errors.username}</div>
           )}
         </div>
 
@@ -79,13 +90,13 @@ export function Signup({ signInUser }) {
             type="text"
             name="email"
             placeholder="E-mail"
-            value={formik.values.email}
-            onChange={formik.handleChange}
-            onBlur={formik.handleBlur}
-            disabled={formik.isSubmitting}
+            value={values.email}
+            onChange={handleChange}
+            onBlur={handleBlur}
+            disabled={isSubmitting}
           />
-          {formik.touched.email && formik.errors.email && (
-            <div className="text-red-500 text-sm">{formik.errors.email}</div>
+          {touched.email && errors.email && (
+            <div className="text-red-500 text-sm">{errors.email}</div>
           )}
         </div>
 
@@ -94,22 +105,22 @@ export function Signup({ signInUser }) {
             type="password"
             name="password"
             placeholder="Senha"
-            value={formik.values.password}
-            onChange={formik.handleChange}
-            onBlur={formik.handleBlur}
-            disabled={formik.isSubmitting}
+            value={values.password}
+            onChange={handleChange}
+            onBlur={handleBlur}
+            disabled={isSubmitting}
           />
-          {formik.touched.password && formik.errors.password && (
-            <div className="text-red-500 text-sm">{formik.errors.password}</div>
+          {touched.password && errors.password && (
+            <div className="text-red-500 text-sm">{errors.password}</div>
           )}
         </div>
 
         <button
           type="submit"
           className="w-full bg-birdBlue py-4 rounded-full disabled:opacity-50 text-lg"
-          disabled={formik.isSubmitting || !formik.isValid}
+          disabled={isSubmitting || !isValid}
         >
-          {formik.isSubmitting ? 'Enviando...' : 'Cadastrar'}
+          {isSubmitting ? 'Enviando...' : 'Cadastrar'}
         </button>
       </form>
 

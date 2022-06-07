@@ -39,7 +39,12 @@ function TweetForm({ user, onSuccess }) {
     if (text.length < MAX_TWEET_CHA) setTweetMax(false);
   };
 
-  const { handleSubmit, values, handleBlur, isSubmitting } = formik;
+  const {
+    handleSubmit,
+    values: { text },
+    handleBlur,
+    isSubmitting,
+  } = formik;
 
   return (
     <div className="border-b border-silver p-4 space-y-6">
@@ -50,7 +55,7 @@ function TweetForm({ user, onSuccess }) {
       <form className="pl-12 text-lg flex flex-col" onSubmit={handleSubmit}>
         <textarea
           name="text"
-          value={values.text}
+          value={text}
           placeholder="O que está acontecendo?"
           className="bg-transparent outline-none disabled:opacity-50"
           onChange={handleText}
@@ -59,7 +64,7 @@ function TweetForm({ user, onSuccess }) {
         />
         <div className="flex justify-end items-center space-x-3">
           <p className="text-sm">
-            {values.text.length}/
+            {text.length}/
             <span className={tweetMax ? 'text-red-500' : 'text-birdBlue'}>
               {MAX_TWEET_CHA}
             </span>

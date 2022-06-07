@@ -8,33 +8,31 @@ function Home({ user }) {
   const [data, setData] = useState('');
 
   const getData = async () => {
-    const res = await axios.get('http://localhost:9901/tweets', {
+    const { data } = await axios.get('http://localhost:9901/tweets', {
       headers: {
         authorization: `Bearer ${user.accessToken}`,
       },
     });
-    setData(res.data);
+    setData(data);
   };
 
   useEffect(() => {
     getData();
   }, []);
 
-  console.log(data);
-
   return (
     <>
       <TweetForm user={user} onSuccess={getData} />
       <div>
         {data.length &&
-          data.map((tweet) => (
+          data.map(({ id, user, text }) => (
             <Tweet
-              key={tweet.id}
-              name={tweet.user.name}
-              username={tweet.user.username}
+              key={id}
+              name={user.name}
+              username={user.username}
               avatar={avatar}
             >
-              {tweet.text}
+              {text}
             </Tweet>
           ))}
       </div>

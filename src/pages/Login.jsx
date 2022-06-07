@@ -39,6 +39,17 @@ export function Login({ signInUser, user }) {
     validationSchema,
   });
 
+  const {
+    handleSubmit,
+    values,
+    handleChange,
+    handleBlur,
+    isSubmitting,
+    touched,
+    errors,
+    isValid,
+  } = formik;
+
   return (
     <div className="h-full flex justify-center">
       <div className="bg-birdBlue lg:flex-1"></div>
@@ -46,19 +57,19 @@ export function Login({ signInUser, user }) {
         <div className="max-w-md flex-1">
           <h1 className="text-3xl">Acesse sua conta</h1>
 
-          <form className="space-y-6" onSubmit={formik.handleSubmit}>
+          <form className="space-y-6" onSubmit={handleSubmit}>
             <div className="space-y-2">
               <Input
                 type="text"
                 name="email"
                 placeholder="E-mail"
-                value={formik.values.email}
-                onChange={formik.handleChange}
-                onBlur={formik.handleBlur}
-                disabled={formik.isSubmitting}
+                value={values.email}
+                onChange={handleChange}
+                onBlur={handleBlur}
+                disabled={isSubmitting}
               />
-              {formik.touched.email && formik.errors.email && (
-                <div className="text-red-500 text-sm">{formik.errors.email}</div>
+              {touched.email && errors.email && (
+                <div className="text-red-500 text-sm">{errors.email}</div>
               )}
             </div>
 
@@ -67,30 +78,30 @@ export function Login({ signInUser, user }) {
                 type="password"
                 name="password"
                 placeholder="Senha"
-                value={formik.values.password}
-                onChange={formik.handleChange}
-                onBlur={formik.handleBlur}
-                disabled={formik.isSubmitting}
+                value={values.password}
+                onChange={handleChange}
+                onBlur={handleBlur}
+                disabled={isSubmitting}
               />
-              {formik.touched.password && formik.errors.password && (
-                <div className="text-red-500 text-sm">{formik.errors.password}</div>
+              {touched.password && errors.password && (
+                <div className="text-red-500 text-sm">{errors.password}</div>
               )}
             </div>
 
             <button
               type="submit"
               className="w-full bg-birdBlue py-4 rounded-full disabled:opacity-50 text-lg"
-              disabled={formik.isSubmitting || !formik.isValid}
+              disabled={isSubmitting || !isValid}
             >
-              {formik.isSubmitting ? 'Enviando...' : 'Entrar'}
+              {isSubmitting ? 'Enviando...' : 'Entrar'}
             </button>
           </form>
 
           <span className="text-sm text-silver text-center">
             Não tem conta?{' '}
-            <a className="text-birdBlue" href="/signup">
+            <Link className="text-birdBlue" to="/signup">
               Inscreva-se
-            </a>
+            </Link>
           </span>
         </div>
       </div>

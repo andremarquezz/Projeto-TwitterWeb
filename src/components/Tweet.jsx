@@ -1,8 +1,9 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { HeartIcon } from '@heroicons/react/outline';
 
 function Tweet({ name, avatar, username, children }) {
-  console.log('entrei');
+  const [count, setCount] = useState(0);
+
   return (
     <div className="flex space-x-3 p-4 border-b border-silver items-center">
       <div>
@@ -14,8 +15,10 @@ function Tweet({ name, avatar, username, children }) {
 
         <p>{children}</p>
         <div className="flex space-x-1 text-silver text-sm items-center">
-          <HeartIcon className="w-6 stroke-1 stroke-silver" />
-          <span>1.2k</span>
+          <button onClick={() => setCount(count + 1)}>
+            <HeartIcon className="w-6 stroke-1 stroke-silver" />
+            <span>{count}</span>
+          </button>
         </div>
       </div>
     </div>
