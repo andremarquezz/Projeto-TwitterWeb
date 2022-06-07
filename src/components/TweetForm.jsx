@@ -10,7 +10,7 @@ function TweetForm({ user, onSuccess }) {
     onSubmit: async (values, form) => {
       await axios({
         method: 'post',
-        url: 'http://localhost:9901/tweets',
+        url: `${import.meta.env.VITE_API_HOST}/tweets`,
         headers: {
           authorization: `Bearer ${user.accessToken}`,
         },
