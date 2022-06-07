@@ -22,13 +22,14 @@ export function Login({ signInUser, user }) {
   useEffect(() => user && navigate('/home'), []);
   const formik = useFormik({
     onSubmit: async (values) => {
-      const res = await axios.get(`${import.meta.env.VITE_API_HOST}/login`, {
+      const res = await axios.get('http://localhost:9901/login', {
         auth: {
           username: values.email,
           password: values.password,
         },
       });
       signInUser(res.data);
+      navigate('/home');
     },
     initialValues: {
       email: '',

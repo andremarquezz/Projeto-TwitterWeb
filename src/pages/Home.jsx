@@ -11,20 +11,27 @@ function Home({ user }) {
   }, []);
 
   const fetchData = async () => {
-    const { data } = await axios.get(`${import.meta.env.VITE_API_HOST}/tweets`, {
+    const res = await axios.get(`http://localhost:9901/tweets`, {
       headers: {
         authorization: `Bearer ${user.accessToken}`,
       },
     });
-    setData(data);
+    setData(res.data);
   };
+  console.log(data);
   return (
     <>
-      <TweetForm user={user} onSuccess={fetchData} />
-      {data.length &&
-        data.map(({ user }) => {
-          <Tweet key={user.id} name={user.name} username={user.username} avatar={avatar} />;
-        })}
+      <TweetForm user={user} />
+      {data.map((tweet) => {
+        <Tweet
+          key={tweet.user.id}
+          name={tweet.user.name}
+          username={tweet.user.username}
+          avatar={avatar}
+        >
+          {tweet.text}
+        </Tweet>;
+      })}
     </>
   );
 }

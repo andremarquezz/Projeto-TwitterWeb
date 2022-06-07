@@ -10,7 +10,7 @@ function TweetForm({ user, onSuccess }) {
     onSubmit: async (values, form) => {
       await axios({
         method: 'post',
-        url: `${import.meta.env.VITE_API_HOST}/tweets`,
+        url: 'http://localhost:9901/tweets',
         headers: {
           authorization: `Bearer ${user.accessToken}`,
         },
@@ -39,7 +39,7 @@ function TweetForm({ user, onSuccess }) {
     if (text.length < MAX_TWEET_CHA) setTweetMax(false);
   };
 
-  const { handleSubmit, values, handleBlur, isSubmitting, handleChange } = formik;
+  const { handleSubmit, values, handleBlur, isSubmitting } = formik;
 
   return (
     <div className="border-b border-silver p-4 space-y-6">
