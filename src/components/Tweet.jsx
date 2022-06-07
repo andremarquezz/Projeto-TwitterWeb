@@ -1,8 +1,9 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { HeartIcon } from '@heroicons/react/outline';
 import { BeakerIcon } from '@heroicons/react/solid';
 
 function Tweet({ name, avatar, username, children }) {
+
   return (
     <div className="flex space-x-3 p-4 border-b border-silver items-center">
       <div>

@@ -122,7 +122,6 @@ router.get('/login', async (ctx) => {
       process.env.JWT_SECRET,
       { expiresIn: '24h' }
     );
-
     ctx.body = {
       id: user.id,
       name: user.name,

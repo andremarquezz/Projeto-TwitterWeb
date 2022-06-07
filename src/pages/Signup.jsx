@@ -2,31 +2,28 @@ import { useFormik } from 'formik';
 import * as yup from 'yup';
 import axios from 'axios';
 import { Link, useNavigate } from 'react-router-dom';
-import { useEffect } from 'react';
 
 const Input = (props) => (
   <input {...props} className="w-full bg-transparent p-4 border rounded-xl border-onix text-lg " />
 );
 
 const validationSchema = yup.object({
+  name: yup.string().required('Digite seu nome'),
+  username: yup.string().required('Digite seu username'),
   email: yup.string().required('Digite seu email').email('E-mail inválido'),
   password: yup.string().required('Digite sua senha'),
 });
 
-function Login({ signInUser, user }) {
-  const navigate = useNavigate();
-  useEffect(() => user && navigate('/home'), []);
-
+function Signup() {
   const formik = useFormik({
     onSubmit: async (values) => {
-      const res = await axios.get(`http://localhost:9901/login`, {
-        auth: {
-          username: values.email,
-          password: values.password,
-        },
+      await axios.post(`http://localhost:9901/signup`, {
+        name: values.name,
+        username: values.username,
+        email: values.email,
+        password: values.password,
       });
-      signInUser(res.data);
-      navigate('/home');
+      useNavigate('/home');
     },
     initialValues: {
       email: '',
@@ -35,14 +32,43 @@ function Login({ signInUser, user }) {
     validateOnMount: true,
     validationSchema,
   });
-  const { values, handleSubmit, handleChange, handleBlur, isSubmitting, errors, isValid } = formik;
+  const { values, handleSubmit, handleChange, handleBlur, isSubmitting, errors, isValid, touched } =
+    formik;
   return (
     <>
       <div className="h-full flex flex-col justify-center items-center space-y-6">
-        <h1 className="text-3xl">Login</h1>
+        <h1 className="text-3xl">Crie sua conta</h1>
 
-        <form className="space-y-6" onSubmit={handleSubmit}>
-          <div className="space-y-2">
+        <form className="space-y-1" onSubmit={handleSubmit}>
+          <div className="space-y-1">
+            <Input
+              type="text"
+              name="name"
+              placeholder="Digite seu nome"
+              value={values.name}
+              onChange={handleChange}
+              onBlur={handleBlur}
+              disabled={isSubmitting}
+            />
+            {touched.name && errors.name && (
+              <div className="text-red-500 text-sm">{errors.name}</div>
+            )}
+          </div>
+          <div className="space-y-1">
+            <Input
+              type="text"
+              name="username"
+              placeholder="Digite seu usuario"
+              value={values.username}
+              onChange={handleChange}
+              onBlur={handleBlur}
+              disabled={isSubmitting}
+            />
+            {touched.username && errors.username && (
+              <div className="text-red-500 text-sm">{errors.username}</div>
+            )}
+          </div>
+          <div className="space-y-1">
             <Input
               type="text"
               name="email"
@@ -56,7 +82,7 @@ function Login({ signInUser, user }) {
               <div className="text-red-500 text-sm">{errors.email}</div>
             )}
           </div>
-          <div className="space-y-2">
+          <div className="space-y-1">
             <Input
               type="password"
               name="password"
@@ -76,18 +102,18 @@ function Login({ signInUser, user }) {
             className="w-full bg-birdBlue px-5 py-2 rounded-full disabled:opacity-50"
             disabled={isSubmitting || !isValid}
           >
-            {isSubmitting ? 'Enviando...' : 'Entrar'}
+            {isSubmitting ? 'Enviando...' : 'Criar conta'}
           </button>
+          <span className="text-sm text-silver">
+            Já tem conta?{' '}
+            <Link className="text-birdBlue" to="/">
+              Faça Login
+            </Link>
+          </span>
         </form>
-        <span className="text-sm text-silver">
-          Não tem conta?{' '}
-          <Link className="text-birdBlue" to="/signup">
-            Inscreva-se
-          </Link>
-        </span>
       </div>
     </>
   );
 }
 
-export default Login;
+export default Signup;

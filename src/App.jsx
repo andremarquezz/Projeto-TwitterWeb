@@ -1,15 +1,19 @@
-import React from 'react';
-import Tweet from './components/Tweet';
-import TweetForm from './components/TweetForm';
 import Login from './pages/Login';
+import { useState } from 'react';
+import Home from './pages/Home';
+import Signup from './pages/Signup';
+import { Route, Routes } from 'react-router-dom';
 
 function App() {
+  const [user, setUser] = useState();
+
   return (
     <>
-      <Login/>
-      <TweetForm />
-      <Tweet name="brabo" username="asd" />
-      <Tweet name="outro" username="brabo" />
+      <Routes>
+        <Route path="/" element={<Login signInUser={setUser} user={user} />} />
+        <Route path="/home" element={<Home />} />
+        <Route path="/signup" element={<Signup />} />
+      </Routes>
     </>
   );
 }
