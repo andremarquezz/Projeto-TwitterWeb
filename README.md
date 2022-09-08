@@ -17,7 +17,9 @@
 
 ### 💻 Sobre o Projeto
 
-<p>Este projeto é um mini clone do twitter feito durante o evento Full Stack Challenge, a aplicação esta divida em dois repositorios</p>
+<p>Este projeto é um mini clone do twitter feito durante o evento Full Stack Challenge, a aplicação esta divida em dois repositorios.</p>
+
+<h2 align="center">Obs: o Banco de dados do projeto esta desativado, então não é possivel estar tesando remotamente no momento</h2>
 
 - **[Repositorio Web](https://github.com/andremarquezz/ProjetoTwitterWeb)**
 
